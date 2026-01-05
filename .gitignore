@@ -1,0 +1,17 @@
+# Bazel
+bazel-*
+/bazel-bin
+/bazel-out
+/bazel-testlogs
+
+# Java
+*.class
+*.log
+*.jar
+
+# IntelliJ
+.idea/
+*.iml
+
+# OS
+.DS_Store

@@ -1,0 +1,39 @@
+# this file is like pom.xml . Defines WHAT tools & dependencies exist
+
+module(
+    name = "digital_access_order_processing",
+    version = "1.0.0",
+)
+
+# My project depends on these Bazel modules.
+# rules_java: Core rules to build Java code (java_library, java_binary, etc.)
+# rules_jvm_external: Lets Bazel download dependencies from Maven repositories
+bazel_dep(name = "rules_java", version = "7.6.0")
+bazel_dep(name = "rules_jvm_external", version = "6.5")
+
+# Use the JDK installed on my machine to compile Java code
+java = use_extension(
+    "@rules_java//java:extensions.bzl",
+    "toolchains",
+)
+use_repo(java, "local_jdk")
+# Enables Maven dependency resolution
+maven = use_extension(
+    "@rules_jvm_external//:extensions.bzl",
+    "maven",
+)
+# creates a repo called "maven" - used in BUILD.bazel
+use_repo(maven, "maven")
+
+# Declaring Maven dependencies (Spring Boot)
+maven.install(
+    artifacts = [
+        "org.springframework.boot:spring-boot-starter-web:3.2.1",
+        "org.springframework.boot:spring-boot-starter-data-jpa:3.2.1",
+        "com.h2database:h2:2.2.224",
+        "io.temporal:temporal-sdk:1.23.1",
+    ],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+)
